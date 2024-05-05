@@ -7,11 +7,10 @@ from kindle2notion.exporting import export_to_notion
 from kindle2notion.parsing import parse_raw_clippings_text
 from kindle2notion.reading import read_raw_clippings
 
-
 @click.command()
-@click.argument("notion_api_auth_token")
-@click.argument("notion_database_id")
-@click.argument("clippings_file")
+@click.argument("notion_api_auth_token", default='secret_4fJbZxdvFlviUPx0HurKdDBMluv0cORjI4FqFHH148t')
+@click.argument("notion_database_id", default='87609c64b04b47f79fccd2e2d96d7fd4')
+@click.argument("clippings_file", default='D:\documents\My Clippings.txt')
 @click.option(
     "--enable_location",
     default=True,
@@ -55,15 +54,7 @@ def main(
         all_books = parse_raw_clippings_text(all_clippings)
 
         # Export all the contents in all_books into the Notion DB.
-        export_to_notion(
-            all_books,
-            enable_location,
-            enable_highlight_date,
-            enable_book_cover,
-            separate_blocks,
-            notion_api_auth_token,
-            notion_database_id
-        )
+        export_to_notion(all_books, enable_book_cover,separate_blocks, notion_api_auth_token, notion_database_id)
 
         with open("my_kindle_clippings.json", "w") as out_file:
             json.dump(all_books, out_file, indent=4)
